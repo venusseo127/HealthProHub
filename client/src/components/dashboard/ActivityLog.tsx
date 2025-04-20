@@ -112,9 +112,11 @@ export default function ActivityLog({ role }: ActivityLogProps) {
                           {activity.description}
                         </p>
                       </div>
-                      <div className="mt-2 text-sm text-slate-700 dark:text-slate-300">
-                        <p>{activity.details}</p>
-                      </div>
+                      {activity.details && (
+                        <div className="mt-2 text-sm text-slate-700 dark:text-slate-300">
+                          <p>{activity.details}</p>
+                        </div>
+                      )}
                     </div>
                     <div className="text-right text-sm whitespace-nowrap text-slate-500 dark:text-slate-400">
                       <time dateTime={activity.timestamp}>

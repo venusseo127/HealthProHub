@@ -57,6 +57,11 @@ export default function AffiliateMetrics({ metrics }: AffiliateMetricsProps) {
                     style={{ width: `${doctorPendingPercentage}%` }}
                   ></div>
                 </div>
+                <div className="mt-3">
+                  <Button variant="ghost" size="sm" className="p-0 h-auto text-xs text-primary" asChild>
+                    <a href="/accounts?type=doctor">View Doctor Accounts</a>
+                  </Button>
+                </div>
               </div>
             </div>
             
@@ -89,6 +94,11 @@ export default function AffiliateMetrics({ metrics }: AffiliateMetricsProps) {
                     style={{ width: `${hospitalPendingPercentage}%` }}
                   ></div>
                 </div>
+                <div className="mt-3">
+                  <Button variant="ghost" size="sm" className="p-0 h-auto text-xs text-primary" asChild>
+                    <a href="/accounts?type=hospital">View Hospital Accounts</a>
+                  </Button>
+                </div>
               </div>
             </div>
             
@@ -120,6 +130,11 @@ export default function AffiliateMetrics({ metrics }: AffiliateMetricsProps) {
                       {formatCurrency(commission.total)}
                     </span>
                   </div>
+                </div>
+                <div className="mt-4">
+                  <Button variant="outline" size="sm" className="w-full" asChild>
+                    <a href="/commission">View Commission Details</a>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -214,9 +229,12 @@ export default function AffiliateMetrics({ metrics }: AffiliateMetricsProps) {
               </div>
             </li>
           </ul>
-          <div className="mt-6">
-            <Button className="w-full">
-              Create New Account
+          <div className="mt-6 flex flex-col space-y-3">
+            <Button className="w-full" asChild>
+              <a href="/accounts/add">Create New Account</a>
+            </Button>
+            <Button variant="outline" className="w-full" asChild>
+              <a href="/accounts">View All Accounts</a>
             </Button>
           </div>
         </CardContent>

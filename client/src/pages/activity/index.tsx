@@ -117,7 +117,7 @@ export default function ActivityPage() {
       result = result.filter(activity => 
         activity.title.toLowerCase().includes(term) || 
         activity.description.toLowerCase().includes(term) ||
-        activity.details.toLowerCase().includes(term)
+        (activity.details && activity.details.toLowerCase().includes(term))
       );
     }
     

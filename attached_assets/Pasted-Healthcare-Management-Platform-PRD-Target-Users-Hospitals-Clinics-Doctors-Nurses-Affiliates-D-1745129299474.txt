@@ -1,0 +1,217 @@
+Healthcare Management Platform – PRD
+Target Users: Hospitals, Clinics, Doctors, Nurses, Affiliates
+Deployment: Cloud-ready (Firebase), Modular, Scalable
+UI Framework: shadcn (React + Tailwind-based)
+Backend: Modular API via Firebase Functions / Node.js
+Auth: JWT / OAuth2
+Hosting: Firebase
+
+🔍 Objective
+Build a secure and modular healthcare platform allowing hospitals and doctors to manage OPD/IPD admissions, treatment workflows, inventory, diet, and billing, while affiliates can track associated accounts and revenue.
+
+🎯 MVP Scope
+👩‍⚕️ User Types and Permissions
+
+Role	Key Abilities
+Clinic Staff (Added by Doctor)	Patient Management, OPD/IPD Admission, Case Sheet, Billing
+Nurse (Hospital Account)	Add Doctors, Patient Management, OPD/IPD Admission, Case Sheet, Billing
+Doctor	Create Clinic Staff, Full Access to Their Patients & Reports, Schedule, Treatment Logs
+Affiliate	Create Doctor & Hospital Accounts, Affiliate Tracking, Commission Reporting
+🧩 Core Modules for MVP
+Authentication
+
+Login via username/password
+
+Email required for password reset
+
+Role-based access (JWT/OAuth2)
+
+User Management
+
+Doctor can create staff with role and access settings
+
+Affiliates can create doctor/hospital accounts
+
+Hospitals have a default admin who can add doctors/staff
+
+Patient Management
+
+Registration: Name, Age, Gender, Contact
+
+Patient Dashboard: Vitals, Allergies, Contact, Address
+
+Doctors see only their own patients
+
+OPD/IPD
+
+Add admission entries with linked patient data
+
+Maintain records and update status
+
+Case Sheet & Treatment Logs
+
+Doctors and nurses can add/update treatment logs
+
+Doctors can view logs and their staff activity logs
+
+Billing
+
+Patient-based billing interface
+
+Role-based access to billing module
+
+Inventory
+
+Track medicine/supply stock levels
+
+Diet Module
+
+Assign and manage patient diet plans
+
+Reports
+
+Basic reporting per user role
+
+Log activities and generate patient or billing summaries
+
+Notifications
+
+Firebase Cloud Messaging (FCM) for in-app/email alerts
+
+🧪 MVP Workflow Example
+Patient Registration (via Staff or Nurse)
+Form Fields:
+
+Name
+
+Age
+
+Gender
+
+Contact
+
+Flow:
+
+Frontend form (React + shadcn components)
+
+Submit → Call Firebase Function (API)
+
+API writes to Firebase Realtime DB / Firestore
+
+Show success message or error toast
+
+🔔 Advanced Modules (Full Release)
+For Mobile App
+Dedicated mobile UI using shadcn-compatible components
+
+Offline capabilities (Firestore caching)
+
+Feedback System
+Patients can give feedback post-treatment
+
+Doctors and hospital admins can review it
+
+Enhanced Reporting
+Drill-down reports by user, date, department
+
+Export to PDF, CSV
+
+🏥 Doctor Account Features
+Create multiple hospital locations (Google Maps API)
+
+Manage doctor profile
+
+Add/manage clinic staff accounts
+
+View/edit patient data
+
+Treatment logs and vitals dashboard
+
+Reports (own logs, staff logs)
+
+🏨 Hospital Account Features
+Admin account (username/password + email)
+
+Admin adds doctors and staff
+
+View all logs, reports
+
+View all doctors and appointments
+
+Nurses manage patient data, allergies
+
+OPD/IPD and treatment logs
+
+🤝 Affiliate Features
+Create doctor and hospital accounts
+
+Associate accounts as affiliates
+
+Track monthly plans:
+
+Doctor: ₹3500/month
+
+Hospital: ₹6000/month
+
+Show payment status: Pending / Paid
+
+Withdraw commission (20% cut)
+
+📦 Firebase Modules Overview
+Auth: Firebase Auth (custom claims for roles)
+
+Database: Firestore (modular collections: users, patients, billing, logs)
+
+Functions: Secure REST APIs
+
+Storage: Case files, treatment images
+
+Messaging: FCM for notifications
+
+📐 UI/UX Guidelines
+Fullscreen layout (shadcn UI)
+
+Components: Button, Form, Modal, Table, Toast, Card
+
+TailwindCSS utilities for layout and responsiveness
+
+Role-based conditional rendering
+
+📊 Example Data Flow
+mermaid
+Copy
+Edit
+sequenceDiagram
+    participant Staff
+    participant Frontend
+    participant Firebase API
+    participant Firestore
+
+    Staff->>Frontend: Fill Patient Form
+    Frontend->>Firebase API: POST /patients
+    Firebase API->>Firestore: Save Patient Record
+    Firestore-->>Firebase API: Success
+    Firebase API-->>Frontend: Response OK
+    Frontend-->>Staff: Show Confirmation Toast
+🗂 File & Folder Convention (for Frontend)
+bash
+Copy
+Edit
+/src
+  /components (shadcn UI)
+  /pages
+    /patients
+    /staff
+    /auth
+  /api (frontend api hooks)
+  /lib
+  /types
+  /store
+✅ Deliverables You Provide
+✅ Full wireframes and screen flows
+
+✅ ERD (Entity Relationship Diagram)
+
+✅ Modular API Endpoint List
+
+✅ Timeline PDF with Milestones

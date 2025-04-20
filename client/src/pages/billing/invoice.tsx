@@ -37,7 +37,7 @@ export default function Invoice({ params }: { params: { id: string } }) {
           return;
         }
         
-        const invoiceData = { id: invoiceDoc.id, ...invoiceDoc.data() };
+        const invoiceData = { id: invoiceDoc.id, ...invoiceDoc.data() } as any;
         setInvoice(invoiceData);
         
         // Fetch patient data if patientId exists

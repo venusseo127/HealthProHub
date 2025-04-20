@@ -46,10 +46,7 @@ export const fetchCurrentUser = async (): Promise<User> => {
 };
 
 export const updateUserProfile = async (userData: Partial<User>): Promise<User> => {
-  return await apiRequest('/api/users/profile', {
-    method: 'PATCH',
-    body: JSON.stringify(userData),
-  });
+  return await handleApiRequest<User>('PATCH', '/api/users/profile', userData);
 };
 
 // Patient-related API functions
@@ -59,29 +56,19 @@ export const fetchPatients = async (params?: { doctorId?: string; page?: number;
   if (params?.page) queryParams.append('page', params.page.toString());
   if (params?.limit) queryParams.append('limit', params.limit.toString());
   
-  return await apiRequest(`/api/patients?${queryParams.toString()}`, {
-    method: 'GET',
-  });
+  return await handleApiRequest<{data: Patient[], total: number}>('GET', `/api/patients?${queryParams.toString()}`);
 };
 
 export const fetchPatientById = async (patientId: string): Promise<Patient> => {
-  return await apiRequest(`/api/patients/${patientId}`, {
-    method: 'GET',
-  });
+  return await handleApiRequest<Patient>('GET', `/api/patients/${patientId}`);
 };
 
 export const createPatient = async (patientData: Partial<Patient>): Promise<Patient> => {
-  return await apiRequest('/api/patients', {
-    method: 'POST',
-    body: JSON.stringify(patientData),
-  });
+  return await handleApiRequest<Patient>('POST', '/api/patients', patientData);
 };
 
 export const updatePatient = async (patientId: string, patientData: Partial<Patient>): Promise<Patient> => {
-  return await apiRequest(`/api/patients/${patientId}`, {
-    method: 'PATCH',
-    body: JSON.stringify(patientData),
-  });
+  return await handleApiRequest<Patient>('PATCH', `/api/patients/${patientId}`, patientData);
 };
 
 // Admission-related API functions
@@ -92,29 +79,19 @@ export const fetchAdmissions = async (params?: { patientId?: string; status?: st
   if (params?.page) queryParams.append('page', params.page.toString());
   if (params?.limit) queryParams.append('limit', params.limit.toString());
   
-  return await apiRequest(`/api/admissions?${queryParams.toString()}`, {
-    method: 'GET',
-  });
+  return await handleApiRequest<{data: Admission[], total: number}>('GET', `/api/admissions?${queryParams.toString()}`);
 };
 
 export const fetchAdmissionById = async (admissionId: string): Promise<Admission> => {
-  return await apiRequest(`/api/admissions/${admissionId}`, {
-    method: 'GET',
-  });
+  return await handleApiRequest<Admission>('GET', `/api/admissions/${admissionId}`);
 };
 
 export const createAdmission = async (admissionData: Partial<Admission>): Promise<Admission> => {
-  return await apiRequest('/api/admissions', {
-    method: 'POST',
-    body: JSON.stringify(admissionData),
-  });
+  return await handleApiRequest<Admission>('POST', '/api/admissions', admissionData);
 };
 
 export const updateAdmission = async (admissionId: string, admissionData: Partial<Admission>): Promise<Admission> => {
-  return await apiRequest(`/api/admissions/${admissionId}`, {
-    method: 'PATCH',
-    body: JSON.stringify(admissionData),
-  });
+  return await handleApiRequest<Admission>('PATCH', `/api/admissions/${admissionId}`, admissionData);
 };
 
 // Treatment logs API functions
@@ -125,22 +102,15 @@ export const fetchTreatmentLogs = async (params?: { admissionId?: string; patien
   if (params?.page) queryParams.append('page', params.page.toString());
   if (params?.limit) queryParams.append('limit', params.limit.toString());
   
-  return await apiRequest(`/api/treatment-logs?${queryParams.toString()}`, {
-    method: 'GET',
-  });
+  return await handleApiRequest<{data: TreatmentLog[], total: number}>('GET', `/api/treatment-logs?${queryParams.toString()}`);
 };
 
 export const fetchTreatmentLogById = async (logId: string): Promise<TreatmentLog> => {
-  return await apiRequest(`/api/treatment-logs/${logId}`, {
-    method: 'GET',
-  });
+  return await handleApiRequest<TreatmentLog>('GET', `/api/treatment-logs/${logId}`);
 };
 
 export const createTreatmentLog = async (logData: Partial<TreatmentLog>): Promise<TreatmentLog> => {
-  return await apiRequest('/api/treatment-logs', {
-    method: 'POST',
-    body: JSON.stringify(logData),
-  });
+  return await handleApiRequest<TreatmentLog>('POST', '/api/treatment-logs', logData);
 };
 
 // Billing API functions
@@ -151,23 +121,15 @@ export const fetchBillings = async (params?: { patientId?: string; status?: stri
   if (params?.page) queryParams.append('page', params.page.toString());
   if (params?.limit) queryParams.append('limit', params.limit.toString());
   
-  return await apiRequest(`/api/billings?${queryParams.toString()}`, {
-    method: 'GET',
-  });
+  return await handleApiRequest<{data: Billing[], total: number}>('GET', `/api/billings?${queryParams.toString()}`);
 };
 
 export const createBilling = async (billingData: Partial<Billing>): Promise<Billing> => {
-  return await apiRequest('/api/billings', {
-    method: 'POST',
-    body: JSON.stringify(billingData),
-  });
+  return await handleApiRequest<Billing>('POST', '/api/billings', billingData);
 };
 
 export const updateBillingStatus = async (billingId: string, status: string): Promise<Billing> => {
-  return await apiRequest(`/api/billings/${billingId}/status`, {
-    method: 'PATCH',
-    body: JSON.stringify({ status }),
-  });
+  return await handleApiRequest<Billing>('PATCH', `/api/billings/${billingId}/status`, { status });
 };
 
 // Inventory API functions
@@ -178,23 +140,15 @@ export const fetchInventoryItems = async (params?: { type?: string; reorderNeede
   if (params?.page) queryParams.append('page', params.page.toString());
   if (params?.limit) queryParams.append('limit', params.limit.toString());
   
-  return await apiRequest(`/api/inventory?${queryParams.toString()}`, {
-    method: 'GET',
-  });
+  return await handleApiRequest<{data: InventoryItem[], total: number}>('GET', `/api/inventory?${queryParams.toString()}`);
 };
 
 export const createInventoryItem = async (itemData: Partial<InventoryItem>): Promise<InventoryItem> => {
-  return await apiRequest('/api/inventory', {
-    method: 'POST',
-    body: JSON.stringify(itemData),
-  });
+  return await handleApiRequest<InventoryItem>('POST', '/api/inventory', itemData);
 };
 
 export const updateInventoryItem = async (itemId: string, itemData: Partial<InventoryItem>): Promise<InventoryItem> => {
-  return await apiRequest(`/api/inventory/${itemId}`, {
-    method: 'PATCH',
-    body: JSON.stringify(itemData),
-  });
+  return await handleApiRequest<InventoryItem>('PATCH', `/api/inventory/${itemId}`, itemData);
 };
 
 // Diet plan API functions
@@ -204,23 +158,15 @@ export const fetchDietPlans = async (params?: { patientId?: string; page?: numbe
   if (params?.page) queryParams.append('page', params.page.toString());
   if (params?.limit) queryParams.append('limit', params.limit.toString());
   
-  return await apiRequest(`/api/diet-plans?${queryParams.toString()}`, {
-    method: 'GET',
-  });
+  return await handleApiRequest<{data: DietPlan[], total: number}>('GET', `/api/diet-plans?${queryParams.toString()}`);
 };
 
 export const createDietPlan = async (dietData: Partial<DietPlan>): Promise<DietPlan> => {
-  return await apiRequest('/api/diet-plans', {
-    method: 'POST',
-    body: JSON.stringify(dietData),
-  });
+  return await handleApiRequest<DietPlan>('POST', '/api/diet-plans', dietData);
 };
 
 export const updateDietPlan = async (planId: string, dietData: Partial<DietPlan>): Promise<DietPlan> => {
-  return await apiRequest(`/api/diet-plans/${planId}`, {
-    method: 'PATCH',
-    body: JSON.stringify(dietData),
-  });
+  return await handleApiRequest<DietPlan>('PATCH', `/api/diet-plans/${planId}`, dietData);
 };
 
 // Affiliate tracking API functions
@@ -233,22 +179,16 @@ export const fetchAffiliateTrackings = async (params?: { affiliateId?: string; s
   if (params?.page) queryParams.append('page', params.page.toString());
   if (params?.limit) queryParams.append('limit', params.limit.toString());
   
-  return await apiRequest(`/api/affiliate-tracking?${queryParams.toString()}`, {
-    method: 'GET',
-  });
+  return await handleApiRequest<{data: AffiliateTracking[], total: number}>('GET', `/api/affiliate-tracking?${queryParams.toString()}`);
 };
 
 export const getAffiliateStats = async (affiliateId: string): Promise<any> => {
-  return await apiRequest(`/api/affiliate-tracking/${affiliateId}/stats`, {
-    method: 'GET',
-  });
+  return await handleApiRequest<any>('GET', `/api/affiliate-tracking/${affiliateId}/stats`);
 };
 
 // Dashboard API functions
 export const fetchDashboardStats = async (role: string, userId: string): Promise<any> => {
-  return await apiRequest(`/api/dashboard?role=${role}&userId=${userId}`, {
-    method: 'GET',
-  });
+  return await handleApiRequest<any>('GET', `/api/dashboard?role=${role}&userId=${userId}`);
 };
 
 // Activity logs
@@ -259,18 +199,13 @@ export const fetchActivityLogs = async (params?: { userId?: string; type?: strin
   if (params?.page) queryParams.append('page', params.page.toString());
   if (params?.limit) queryParams.append('limit', params.limit.toString());
   
-  return await apiRequest(`/api/activity-logs?${queryParams.toString()}`, {
-    method: 'GET',
-  });
+  return await handleApiRequest<any>('GET', `/api/activity-logs?${queryParams.toString()}`);
 };
 
 // Reports
 export const generateReport = async (type: string, params: Record<string, any>): Promise<any> => {
-  return await apiRequest('/api/reports/generate', {
-    method: 'POST',
-    body: JSON.stringify({
-      type,
-      params
-    }),
+  return await handleApiRequest<any>('POST', '/api/reports/generate', {
+    type,
+    params
   });
 };

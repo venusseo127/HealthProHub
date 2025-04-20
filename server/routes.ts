@@ -73,7 +73,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Protected routes (require authentication)
   app.get('/api/users/me', verifyFirebaseToken, async (req: Request, res: Response) => {
     try {
-      const uid = req.user.uid;
+      const uid = req.user?.uid;
+      if (!uid) {
+        return res.status(401).json({ error: 'Authentication required' });
+      }
+      
       const userDoc = await db.collection('users').doc(uid).get();
       
       if (!userDoc.exists) {
@@ -151,9 +155,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   app.post('/api/patients', verifyFirebaseToken, async (req: Request, res: Response) => {
     try {
+      const uid = req.user?.uid;
+      if (!uid) {
+        return res.status(401).json({ error: 'Authentication required' });
+      }
+      
       const patientData = {
         ...req.body,
-        createdById: req.user.uid,
+        createdById: uid,
         createdAt: new Date().toISOString()
       };
       
@@ -166,7 +175,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         title: 'New Patient Registered',
         description: `Patient ${patientData.name} was registered`,
         timestamp: new Date().toISOString(),
-        userId: req.user.uid,
+        userId: uid,
         relatedId: patientRef.id
       });
       
@@ -229,10 +238,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   app.post('/api/admissions', verifyFirebaseToken, async (req: Request, res: Response) => {
     try {
+      const uid = req.user?.uid;
+      if (!uid) {
+        return res.status(401).json({ error: 'Authentication required' });
+      }
+      
       const admissionData = {
         ...req.body,
         admissionDate: new Date().toISOString(),
-        createdById: req.user.uid,
+        createdById: uid,
         createdAt: new Date().toISOString()
       };
       
@@ -245,7 +259,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         title: 'Patient Admitted',
         description: `Patient was admitted as ${admissionData.admissionType}`,
         timestamp: new Date().toISOString(),
-        userId: req.user.uid,
+        userId: uid,
         relatedId: admissionRef.id
       });
       
@@ -306,9 +320,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   app.post('/api/treatment-logs', verifyFirebaseToken, async (req: Request, res: Response) => {
     try {
+      const uid = req.user?.uid;
+      if (!uid) {
+        return res.status(401).json({ error: 'Authentication required' });
+      }
+      
       const logData = {
         ...req.body,
-        createdById: req.user.uid,
+        createdById: uid,
         createdAt: new Date().toISOString()
       };
       
@@ -321,7 +340,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         title: 'Treatment Updated',
         description: logData.title || 'A treatment log was updated',
         timestamp: new Date().toISOString(),
-        userId: req.user.uid,
+        userId: uid,
         relatedId: logRef.id
       });
       

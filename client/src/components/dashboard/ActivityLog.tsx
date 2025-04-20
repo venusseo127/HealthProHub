@@ -128,8 +128,8 @@ export default function ActivityLog({ role }: ActivityLogProps) {
           </ul>
         </div>
         <div className="mt-6">
-          <Button variant="outline" className="w-full">
-            View all activity
+          <Button variant="outline" className="w-full" asChild>
+            <a href="/activity">View all activity</a>
           </Button>
         </div>
       </CardContent>

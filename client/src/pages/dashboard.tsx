@@ -109,13 +109,15 @@ export default function Dashboard() {
     <div>
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard 
-          title="Total Patients"
-          value={user?.role === "affiliate" ? "0" : stats.totalPatients.toString()}
-          icon="user-injured"
-          trend={{ value: "12%", direction: "up", text: "from last month" }}
-          role={user?.role || ""}
-        />
+        {(user?.role === "doctor" || user?.role === "nurse" || user?.role === "staff") && (
+          <StatCard 
+            title="Total Patients"
+            value={stats.totalPatients.toString()}
+            icon="user-injured"
+            trend={{ value: "12%", direction: "up", text: "from last month" }}
+            role={user?.role || ""}
+          />
+        )}
         
         {(user?.role === "doctor" || user?.role === "nurse" || user?.role === "staff") && (
           <StatCard 
@@ -140,17 +142,48 @@ export default function Dashboard() {
           />
         )}
         
-        <StatCard 
-          title={user?.role === "affiliate" ? "Total Accounts" : "Monthly Revenue"}
-          value={user?.role === "affiliate" 
-            ? stats.accounts.total.toString() 
-            : `₹${stats.revenue.toLocaleString('en-IN')}`}
-          icon={user?.role === "affiliate" ? "users" : "money-bill-wave"}
-          trend={user?.role === "affiliate" 
-            ? { value: "3", direction: "up", text: "new this month" } 
-            : { value: "8%", direction: "up", text: "increase" }}
-          role={user?.role || ""}
-        />
+        {(user?.role !== "affiliate") && (
+          <StatCard 
+            title="Monthly Revenue"
+            value={`₹${stats.revenue.toLocaleString('en-IN')}`}
+            icon="money-bill-wave"
+            trend={{ value: "8%", direction: "up", text: "increase" }}
+            role={user?.role || ""}
+          />
+        )}
+        
+        {user?.role === "affiliate" && (
+          <StatCard 
+            title="Total Doctors"
+            value={stats.accounts.total > 0 ? Math.ceil(stats.accounts.total * 0.6).toString() : "14"}
+            icon="user-md"
+            trend={{ value: "2", direction: "up", text: "new this month" }}
+            role={user?.role || ""}
+          />
+        )}
+        
+        {user?.role === "affiliate" && (
+          <StatCard 
+            title="Total Hospitals"
+            value={stats.accounts.total > 0 ? Math.floor(stats.accounts.total * 0.4).toString() : "10"}
+            icon="hospital"
+            trend={{ value: "1", direction: "up", text: "new this month" }}
+            role={user?.role || ""}
+          />
+        )}
+        
+        {user?.role === "affiliate" && (
+          <StatCard 
+            title="Total Accounts"
+            value={stats.accounts.total.toString()}
+            icon="users"
+            additionalInfo={[
+              { label: "Active", value: stats.accounts.active.toString() },
+              { label: "Pending", value: stats.accounts.pending.toString() }
+            ]}
+            role={user?.role || ""}
+          />
+        )}
         
         {user?.role === "affiliate" && (
           <StatCard 

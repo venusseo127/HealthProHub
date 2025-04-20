@@ -270,9 +270,11 @@ export default function ActivityPage() {
                               </time>
                             </div>
                           </div>
-                          <div className="mt-2 text-sm text-slate-700 dark:text-slate-300">
-                            <p>{activity.details}</p>
-                          </div>
+                          {activity.details && (
+                            <div className="mt-2 text-sm text-slate-700 dark:text-slate-300">
+                              <p>{activity.details}</p>
+                            </div>
+                          )}
                           {role === "affiliate" && activity.type.includes("account_created") && (
                             <div className="mt-2">
                               <Button variant="outline" size="sm" asChild>

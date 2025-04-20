@@ -24,6 +24,7 @@ import Commission from "@/pages/commission/index";
 import Reports from "@/pages/reports/index";
 import Settings from "@/pages/settings/index";
 import NotFound from "@/pages/not-found";
+import Activity from "@/pages/activity/index";
 
 // Components
 import AppShell from "@/components/AppShell";
@@ -69,6 +70,7 @@ function Router() {
             <Route path="/commission" component={Commission} />
             <Route path="/reports" component={Reports} />
             <Route path="/settings" component={Settings} />
+            <Route path="/activity" component={Activity} />
             <Route component={NotFound} />
           </Switch>
         </AppShell>

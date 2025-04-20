@@ -27,11 +27,15 @@ export default function Reports() {
           Generate and download various reports based on your permissions.
         </p>
 
-        <Tabs defaultValue="patient" value={activeTab} onValueChange={setActiveTab} className="w-full mt-6">
-          <TabsList className="grid w-full grid-cols-4 md:w-auto md:inline-flex">
-            <TabsTrigger value="patient">Patient Reports</TabsTrigger>
-            <TabsTrigger value="financial">Financial Reports</TabsTrigger>
-            <TabsTrigger value="inventory">Inventory Reports</TabsTrigger>
+        <Tabs defaultValue={role === "affiliate" ? "commission" : "patient"} value={activeTab} onValueChange={setActiveTab} className="w-full mt-6">
+          <TabsList className="grid w-full md:w-auto md:inline-flex" style={{gridTemplateColumns: role === "affiliate" ? "1fr" : "repeat(4, 1fr)"}}>
+            {role !== "affiliate" && (
+              <>
+                <TabsTrigger value="patient">Patient Reports</TabsTrigger>
+                <TabsTrigger value="financial">Financial Reports</TabsTrigger>
+                <TabsTrigger value="inventory">Inventory Reports</TabsTrigger>
+              </>
+            )}
             {(role === "affiliate") && (
               <TabsTrigger value="commission">Commission Reports</TabsTrigger>
             )}

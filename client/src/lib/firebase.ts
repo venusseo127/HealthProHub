@@ -78,7 +78,18 @@ export const registerUser = async (email: string, password: string, name: string
 };
 
 export const loginUser = async (email: string, password: string) => {
-  return await signInWithEmailAndPassword(auth, email, password);
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    
+    // Get additional user data from Firestore
+    const user = userCredential.user;
+    const userData = await getUserData(user);
+    
+    return userData;
+  } catch (error) {
+    console.error("Login error:", error);
+    throw error;
+  }
 };
 
 export const logoutUser = async () => {
@@ -107,11 +118,19 @@ export const getUserData = async (user: User) => {
 // Patient functions
 export const addPatient = async (patientData: any) => {
   try {
-    return await addDoc(collection(db, "patients"), {
+    const docRef = await addDoc(collection(db, "patients"), {
       ...patientData,
       createdAt: new Date().toISOString()
     });
+    
+    // Return both the document reference and the ID
+    return {
+      id: docRef.id,
+      ...patientData,
+      createdAt: new Date().toISOString()
+    };
   } catch (error) {
+    console.error("Error adding patient:", error);
     throw error;
   }
 };
@@ -194,12 +213,20 @@ export const updatePatient = async (patientId: string, patientData: any) => {
 // Admission functions
 export const addAdmission = async (admissionData: any) => {
   try {
-    return await addDoc(collection(db, "admissions"), {
+    const docRef = await addDoc(collection(db, "admissions"), {
       ...admissionData,
       admissionDate: new Date().toISOString(),
       createdAt: new Date().toISOString()
     });
+    
+    return {
+      id: docRef.id,
+      ...admissionData,
+      admissionDate: new Date().toISOString(),
+      createdAt: new Date().toISOString()
+    };
   } catch (error) {
+    console.error("Error adding admission:", error);
     throw error;
   }
 };
@@ -271,11 +298,18 @@ export const getAdmissions = async (patientId?: string, status?: string, lastVis
 // Treatment logs
 export const addTreatmentLog = async (treatmentData: any) => {
   try {
-    return await addDoc(collection(db, "treatmentLogs"), {
+    const docRef = await addDoc(collection(db, "treatmentLogs"), {
       ...treatmentData,
       createdAt: new Date().toISOString()
     });
+    
+    return {
+      id: docRef.id,
+      ...treatmentData,
+      createdAt: new Date().toISOString()
+    };
   } catch (error) {
+    console.error("Error adding treatment log:", error);
     throw error;
   }
 };

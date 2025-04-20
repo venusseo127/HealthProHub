@@ -85,8 +85,8 @@ function Router() {
 function App() {
   return (
     <TooltipProvider>
-      <Toaster />
       <AuthProvider>
+        <Toaster />
         <Router />
       </AuthProvider>
     </TooltipProvider>

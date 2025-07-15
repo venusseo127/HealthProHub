@@ -36,7 +36,7 @@ export default function Admissions() {
       const result = await getAdmissions(
         undefined, 
         statusFilter,
-        loadMore ? lastVisible : undefined
+        loadMore ? lastVisible ?? undefined : undefined
       );
       
       if (result.admissions.length === 0) {

@@ -116,12 +116,15 @@ export default function TreatmentLogForm({
   // If selectedAdmission changes, update form value
   useEffect(() => {
     if (selectedAdmission?.id) {
-      form.setValue("admissionId", selectedAdmission.id);
+      if(selectedAdmission?.id!="Unassigned"){
+        form.setValue("admissionId", selectedAdmission.id);
+      }
     }
   }, [selectedAdmission, form]);
 
   useEffect(() => {
     // Only fetch patients if no selectedPatient is provided
+    //todo select patient by doctor or hospital
     if (!selectedPatient && !patientLoading) {
       fetchPatients();
     }
@@ -162,7 +165,7 @@ export default function TreatmentLogForm({
       setLoadingAdmissions(false);
     }
   };
-
+console.log(selectedPatient,loadingPatients,patients.length)
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -174,7 +177,7 @@ export default function TreatmentLogForm({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Patient</FormLabel>
-                {loadingPatients || patientLoading ? (
+                {loadingPatients || !patientLoading ? (
                   <Skeleton className="h-10 w-full" />
                 ) : selectedPatient ? (
                   <div className="p-2 border rounded-md bg-slate-50 dark:bg-slate-800">
@@ -200,6 +203,11 @@ export default function TreatmentLogForm({
                   </Select>
                 )}
                 <FormMessage />
+                {!selectedPatient && !loadingPatients && patients.length === 0 && (
+                  <p className="text-sm text-slate-500">
+                    No patients found. Please add a patient first.
+                  </p>
+                )}
               </FormItem>
             )}
           />
@@ -228,7 +236,7 @@ export default function TreatmentLogForm({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="">No admission (regular visit)</SelectItem>
+                      <SelectItem value="Unassigned">No specific admission</SelectItem>
                       {admissions.map((admission) => (
                         <SelectItem key={admission.id} value={admission.id}>
                           {admission.admissionType} - {new Date(admission.admissionDate).toLocaleDateString()}

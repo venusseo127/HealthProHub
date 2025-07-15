@@ -21,18 +21,18 @@ type NavItem = {
 };
 
 const navItems: NavItem[] = [
-  { name: "Dashboard", path: "/dashboard", icon: "Home", roles: ["doctor", "nurse", "staff", "affiliate"] },
-  { name: "Patients", path: "/patients", icon: "UserRound", roles: ["doctor", "nurse", "staff"] },
-  { name: "OPD/IPD", path: "/admissions", icon: "Bed", roles: ["doctor", "nurse", "staff"] },
-  { name: "Treatment", path: "/treatment", icon: "Stethoscope", roles: ["doctor", "nurse"] },
-  { name: "Billing", path: "/billing", icon: "Receipt", roles: ["doctor", "nurse", "staff"] },
-  { name: "Inventory", path: "/inventory", icon: "Tablets", roles: ["nurse", "staff"] },
-  { name: "Diet", path: "/diet", icon: "Utensils", roles: ["nurse"] },
-  { name: "Staff", path: "/staff", icon: "Users", roles: ["doctor"] },
-  { name: "Accounts", path: "/accounts", icon: "Building2", roles: ["affiliate"] },
-  { name: "Commission", path: "/commission", icon: "Wallet", roles: ["affiliate"] },
-  { name: "Reports", path: "/reports", icon: "BarChartBig", roles: ["doctor", "nurse", "staff", "affiliate"] },
-  { name: "Settings", path: "/settings", icon: "Settings", roles: ["doctor", "nurse", "staff", "affiliate"] },
+  { name: "Dashboard", path: "/dashboard", icon: "Home", roles: ["doctor", "nurse", "staff", "affiliate","admin"] },
+  { name: "Patients", path: "/patients", icon: "UserRound", roles: ["doctor", "nurse", "staff","admin"] },
+  { name: "OPD/IPD", path: "/admissions", icon: "Bed", roles: ["doctor", "nurse", "staff","admin"] },
+  { name: "Treatment", path: "/treatment", icon: "Stethoscope", roles: ["doctor", "nurse","admin"] },
+  { name: "Billing", path: "/billing", icon: "Receipt", roles: ["doctor", "nurse", "staff","admin"] },
+  { name: "Inventory", path: "/inventory", icon: "Tablets", roles: ["nurse", "staff","admin"] },
+  { name: "Diet", path: "/diet", icon: "Utensils", roles: ["nurse","admin"] },
+  { name: "Staff", path: "/staff", icon: "Users", roles: ["doctor","admin"] },
+  { name: "Accounts", path: "/accounts", icon: "Building2", roles: ["affiliate","admin"] },
+  { name: "Commission", path: "/commission", icon: "Wallet", roles: ["affiliate","admin"] },
+  { name: "Reports", path: "/reports", icon: "BarChartBig", roles: ["doctor", "nurse", "staff", "affiliate","admin"] },
+  { name: "Settings", path: "/settings", icon: "Settings", roles: ["doctor", "nurse", "staff", "affiliate","admin"] },
 ];
 
 export default function Sidebar({ sidebarOpen, setSidebarOpen, onLogout }: SidebarProps) {
@@ -72,7 +72,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen, onLogout }: Sideb
       <div className="flex items-center justify-between h-16 px-4 border-b border-slate-200 dark:border-slate-700">
         <div className="flex items-center">
           <img className="h-8 w-auto" src="https://cdn-icons-png.flaticon.com/512/3481/3481061.png" alt="Healthcare Logo" />
-          <span className="ml-2 text-lg font-semibold text-primary dark:text-primary-foreground">HealthcarePro</span>
+          <span className="ml-2 text-lg font-semibold text-primary dark:text-primary-foreground">HealthPro</span>
         </div>
         <button 
           className="md:hidden rounded-md p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-700"

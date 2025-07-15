@@ -30,7 +30,7 @@ export default function Patients() {
       const doctorId = user?.role === "doctor" ? user.uid : undefined;
       const result = await getPatients(
         doctorId, 
-        loadMore ? lastVisible : undefined
+        loadMore ? lastVisible ?? undefined : undefined
       );
       
       if (result.patients.length === 0) {

@@ -10,9 +10,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useToast } from "@/hooks/use-toast";
-import { registerUser } from "@/lib/firebase";
+import { db, registerUser } from "@/lib/firebase";
 import { addDoc, collection } from "firebase/firestore";
-import { db } from "@/lib/firebase";
 import { useAuth } from "@/context/AuthContext";
 
 export default function AddAccount() {
@@ -75,22 +74,21 @@ export default function AddAccount() {
     setIsLoading(true);
     
     try {
-      // Create the user account first
-      const userCredential = await registerUser(email, password, name, accountType);
       
       // Prepare account data
       const accountData = {
-        uid: userCredential.uid,
         name,
         email,
         contact: contactNumber,
         address,
         accountType,
-        planType,
-        planAmount: Number(planAmount),
         status: "pending", // Initially pending until payment
         affiliateId: user.uid,
         createdAt: new Date().toISOString(),
+        planType,
+        planAmount: Number(planAmount),
+        planStart: new Date().toISOString(),
+        planEnd: new Date(new Date().setDate(new Date().getDate() + 30)).toISOString(),// 30 days subscription
         lastPayment: null
       };
       
@@ -108,8 +106,11 @@ export default function AddAccount() {
         });
       }
       
-      // Create the account record in affiliateAccounts collection
-      await addDoc(collection(db, "affiliateAccounts"), accountData);
+      // Create the account record in affiliateAccounts collection 
+      const userInfo =  await addDoc(collection(db, "Accounts"), accountData);
+
+      // Create the user account first
+      await registerUser(email, password, name,accountType, planType, userInfo.id);
       
       toast({
         title: "Account created",
@@ -326,26 +327,19 @@ export default function AddAccount() {
                     <div className="flex items-start space-x-3 p-3 border rounded-md">
                       <RadioGroupItem value="standard" id="standard" className="mt-1" />
                       <div>
-                        <Label htmlFor="standard" className="font-medium">Standard Plan</Label>
+                        <Label htmlFor="standard" className="font-medium">Standard Plan - Php {accountType === "doctor" ? "2499" : "4,000"}/month</Label>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
                           Basic features with limited patient records
                         </p>
                       </div>
-                      <div className="ml-auto font-medium">
-                        ₹{accountType === "doctor" ? "3,500" : "6,000"}/month
-                      </div>
                     </div>
-                    
                     <div className="flex items-start space-x-3 p-3 border rounded-md">
                       <RadioGroupItem value="premium" id="premium" className="mt-1" />
                       <div>
-                        <Label htmlFor="premium" className="font-medium">Premium Plan</Label>
+                        <Label htmlFor="premium" className="font-medium">Premium Plan - Php {accountType === "doctor" ? "4,000" : "5,500"}/month</Label>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
                           Advanced features with unlimited patient records
                         </p>
-                      </div>
-                      <div className="ml-auto font-medium">
-                        ₹{accountType === "doctor" ? "5,500" : "9,000"}/month
                       </div>
                     </div>
                   </RadioGroup>

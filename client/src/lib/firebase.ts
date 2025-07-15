@@ -31,12 +31,13 @@ import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 // Firebase config - use environment variables
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "demo-api-key",
-  authDomain: `${import.meta.env.VITE_FIREBASE_PROJECT_ID || "demo-project"}.firebaseapp.com`,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "demo-project",
-  storageBucket: `${import.meta.env.VITE_FIREBASE_PROJECT_ID || "demo-project"}.appspot.com`,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "demo-sender-id",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "demo-app-id",
+  apiKey: "AIzaSyCZt39VzN9nt5vtvJiJn5GWxE_1iHcdGtA",
+  authDomain: "healthcare-management-de627.firebaseapp.com",
+  projectId: "healthcare-management-de627",
+  storageBucket: "healthcare-management-de627.firebasestorage.app",
+  messagingSenderId: "630206916469",
+  appId: "1:630206916469:web:d981fe8508e3c2d82d953c",
+  measurementId: "G-QKHZCNWL0Q"
 };
 
 // Initialize Firebase
@@ -52,7 +53,7 @@ if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
 }
 
 // Auth functions
-export const registerUser = async (email: string, password: string, name: string, role: string) => {
+export const registerUser = async (email: string, password: string, name: string, role: string, subscription: string, accountId: string) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     
@@ -63,9 +64,10 @@ export const registerUser = async (email: string, password: string, name: string
     
     // Create user document in Firestore with role
     await setDoc(doc(db, "users", userCredential.user.uid), {
-      uid: userCredential.user.uid,
+      uid: accountId,
       email,
       displayName: name,
+      subscription: subscription,
       role,
       createdAt: new Date().toISOString(),
       isActive: true
@@ -114,7 +116,22 @@ export const getUserData = async (user: User) => {
   
   return user;
 };
-
+export const getUserById = async (userId: string) => {
+  try {
+    const userSnap = await getDoc(doc(db, "users", userId));
+    
+    if (userSnap.exists()) {
+      return {
+        id: userSnap.id,
+        ...userSnap.data()
+      };
+    }
+    
+    return null;
+  } catch (error) {
+    throw error;
+  }
+};
 // Patient functions
 export const addPatient = async (patientData: any) => {
   try {
@@ -174,7 +191,7 @@ export const getPatients = async (doctorId?: string, lastVisible?: QueryDocument
     
     // Get the last document for pagination
     const lastVisibleDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
-    
+
     return {
       patients,
       lastVisible: lastVisibleDoc
@@ -227,6 +244,22 @@ export const addAdmission = async (admissionData: any) => {
     };
   } catch (error) {
     console.error("Error adding admission:", error);
+    throw error;
+  }
+};
+export const getAdmissionById = async (admissionId: string) => {
+  try {
+    const admissionDoc = await getDoc(doc(db, "admissions", admissionId));
+    
+    if (admissionDoc.exists()) {
+      return {
+        id: admissionDoc.id,
+        ...admissionDoc.data()
+      };
+    }
+    
+    return null;
+  } catch (error) {
     throw error;
   }
 };
@@ -608,7 +641,7 @@ export const addStaffMember = async (staffData: any, password: string) => {
       role: staffData.role,
       permissions: staffData.permissions || [],
       doctorId: staffData.doctorId,
-      hospitalId: staffData.hospitalId,
+      //hospitalId: staffData.hospitalId,
       createdAt: new Date().toISOString(),
       isActive: true
     });

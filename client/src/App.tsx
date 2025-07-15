@@ -14,12 +14,16 @@ import AddPatient from "@/pages/patients/add";
 import PatientDetails from "@/pages/patients/[id]";
 import Admissions from "@/pages/admissions/index";
 import AddAdmission from "@/pages/admissions/add";
+import AdmissionDetails from "@/pages/admissions/[id]";
 import Treatment from "@/pages/treatment/index";
+import AddTreatmentLog from "@/pages/treatment/add";
 import Billing from "@/pages/billing/index";
 import Inventory from "@/pages/inventory/index";
 import Diet from "@/pages/diet/index";
 import Staff from "@/pages/staff/index";
+import AddStaff from "@/pages/staff/add";
 import Accounts from "@/pages/accounts/index";
+import AddAccount from "@/pages/accounts/add";
 import Commission from "@/pages/commission/index";
 import Reports from "@/pages/reports/index";
 import Settings from "@/pages/settings/index";
@@ -61,12 +65,16 @@ function Router() {
             <Route path="/patients/:id" component={PatientDetails} />
             <Route path="/admissions" component={Admissions} />
             <Route path="/admissions/add" component={AddAdmission} />
+            <Route path="/admissions/:id" component={AdmissionDetails} />
             <Route path="/treatment" component={Treatment} />
+            <Route path="/treatment/add" component={AddTreatmentLog} />
             <Route path="/billing" component={Billing} />
             <Route path="/inventory" component={Inventory} />
             <Route path="/diet" component={Diet} />
             <Route path="/staff" component={Staff} />
+            <Route path="/staff/add" component={AddStaff} />
             <Route path="/accounts" component={Accounts} />
+            <Route path="/accounts/add" component={AddAccount} />
             <Route path="/commission" component={Commission} />
             <Route path="/reports" component={Reports} />
             <Route path="/settings" component={Settings} />

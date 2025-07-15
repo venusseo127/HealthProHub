@@ -13,7 +13,7 @@ export interface User {
   createdAt: string;
 }
 
-export type UserRole = 'doctor' | 'nurse' | 'staff' | 'affiliate' | 'hospital';
+export type UserRole = 'doctor' | 'nurse' | 'staff' | 'affiliate' | 'hospital' | 'admin';
 
 // Patient types
 export interface Patient {

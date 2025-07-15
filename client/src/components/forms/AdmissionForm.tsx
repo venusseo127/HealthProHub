@@ -97,7 +97,7 @@ export default function AdmissionForm({
       setLoadingPatients(false);
     }
   };
-
+//console.log(loadingPatients+"-d-d-"+patientLoading)
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -109,7 +109,7 @@ export default function AdmissionForm({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Patient</FormLabel>
-                {loadingPatients || patientLoading ? (
+                {loadingPatients || !patientLoading ? ( 
                   <Skeleton className="h-10 w-full" />
                 ) : selectedPatient ? (
                   <div className="p-2 border rounded-md bg-slate-50 dark:bg-slate-800">

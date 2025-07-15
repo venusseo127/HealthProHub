@@ -24,7 +24,7 @@ export default function AddAdmission() {
     if (patientId) {
       fetchPatient(patientId);
     }
-  }, [patientId]);
+  }, [[patientId]]);
 
   const fetchPatient = async (id: string) => {
     setPatientLoading(true);
@@ -53,7 +53,9 @@ export default function AddAdmission() {
         ...formData,
         createdById: user.uid,
         doctorId: user.role === "doctor" ? user.uid : formData.doctorId,
+        doctorName: user.displayName,
         admissionDate: new Date().toISOString(),
+        patientName: patient?.name || "",
         status: "active"
       };
       
@@ -85,7 +87,7 @@ export default function AddAdmission() {
           <CardTitle>Create New Admission</CardTitle>
           <CardDescription>
             {patientId 
-              ? `Creating admission for ${patientLoading ? 'loading...' : patient?.name || 'patient'}`
+              ? `Creating admission for ${!patientLoading ? 'loading...' : patient?.name || 'patient'}`
               : 'Enter patient and admission details'
             }
           </CardDescription>
